@@ -7,7 +7,7 @@
 <%@ page import="jakarta.servlet.jsp.jstl.fmt.LocalizationContext" %>
 
 <fmt:setLocale value="${sessionScope.local}" />
-<fmt:setBundle basename="localization.localization" var="loc" />
+<fmt:setBundle basename="localization" var="loc" />
 
 <!-- common elements -->
 <fmt:message bundle="${loc}" key="goback.news" var="goback_news"/>

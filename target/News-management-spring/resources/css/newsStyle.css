@@ -1,20 +1,16 @@
 /* for base layout */
-html, body {
+html,body {
 	height: 100%;
 	width: 1000px;
-	background-color: #cbc5c8;
-}
-
-a, u {
-  text-decoration: none;
+	background-color: #87CEEB;
 }
 
 * {
-	text-decoration: none;
 	margin: 0 auto;
 }
 
 .page {
+	background-color: #87CEFA;
 	border: solid 1px black;
 	font: normal 100% Times New Roman, Verdana, Tahoma, sans-serif;
 	height: 99%;
@@ -25,21 +21,19 @@ a, u {
 }
 
 .header {
-	background:
-		url("https://catherineasquithgallery.com/uploads/posts/2021-02/1614521284_77-p-foni-beloe-na-belom-luchshee-90.jpg");
 	border: solid 1px black;
 	height: 110px;
-	font-size: 24px;
-	margin-left: -1px;
-	margin-right: -1px;
-	margin-top: -1px;
+	font-size : 24px;
+	margin-left: -1px; 
+	margin-right: -1px; 
+	margin-top: -1px; 
 }
 
-.menu, .content {
+.menu,.content {
 	bottom: 20px;
 	position: absolute;
 	top: 110px;
-	overflow: auto;
+ 	overflow: auto; 
 }
 
 .menu {
@@ -49,13 +43,16 @@ a, u {
 }
 
 .content {
-	left: 25%;
+	left: 25%; 
 	right: 0;
+	
 	padding-top: 5px;
 	padding-bottom: 5px;
 	padding-right: 5px;
-	padding-left: 10px;
-	border: solid 1px grey;
+ 	padding-left: 10px; 
+	
+	border: solid 1px black;
+	
 	margin-top: 5px;
 	margin-bottom: 10px;
 	margin-left: 10px;
@@ -69,6 +66,7 @@ a, u {
 	width: 1000px;
 	height: 20px;
 	border: solid 1px black;
+	
 	margin-left: -1px;
 	margin-right: -1px;
 	margin-bottom: -1px;
@@ -79,37 +77,29 @@ a, u {
 }
 
 /* for menu */
-.list-menu-invisible-wrapper {
+ .menu-wrapper {
+ 	margin-top : 5px;
+ 	margin-left : 10px;
+ 
+	background: #4682B4;
+	padding-left: 10px;
 	
 }
 
-.base-layout-wrapper {
-	background:
-		url("https://catherineasquithgallery.com/uploads/posts/2021-02/1614521284_77-p-foni-beloe-na-belom-luchshee-90.jpg");
-}
-
-.menu-wrapper {
-	margin-top: 5px;
-	margin-left: 10px;
-	background: #cbc5c8;
-	padding-left: 10px;
-	border: 1px solid gray;
-}
-
 .menu-title {
-	background: #cbc5c8;
-	padding-top: 1px;
+	background: #4682B4;
+	padding-top: 5px;
 	padding-bottom: 5px;
-	padding-left: 55px;
+	padding-left: 10px;
 }
 
 .list-menu-wrapper {
-	background: #cbc5c8;
+	background: #87CEFA;
 	line-height: 1.5;
 	width: 80%;
 	padding-top: 10px;
-	padding-bottom: 5px;
-	padding-left: 0px;
+	padding-bottom: 20px;
+	padding-left: 10px;
 }
 
 .list-menu-invisible-wrapper {
@@ -123,10 +113,18 @@ a, u {
 	padding-bottom: 5px;
 	padding-left: 5px;
 	padding-top: 5px;
-}
+} 
 
 /* for header */
-.wrapper {
+
+/* Style the form - display items horizontally */
+.form-inline {
+	display: flex;
+	flex-flow: row wrap;
+	align-items: center;
+}
+
+ .wrapper {
 	margin-left: 20px;
 	position: relative;
 }
@@ -147,10 +145,10 @@ a, u {
 	right: 20px;
 	color: blue;
 	font-size: 14px;
-}
+} 
 
 /* for news list */
-.single-news-wrapper {
+ .single-news-wrapper {
 	margin-top: 15px;
 }
 
@@ -169,17 +167,6 @@ a, u {
 	word-break: break-all;
 }
 
-.news-brief {
-	width: 40%;
-	float: left;
-	text-align: left;
-	padding-bottom: 10px;
-	padding-top: 20px;
-	padding-right: 5px;
-	padding-left: 20px;
-	word-break: break-all
-}
-
 /*.news-date {
  	width: 10% float: right;
 	text-align: right;
@@ -189,22 +176,19 @@ a, u {
 	padding-left: 5px;
 	text-decoration: underline;
 } */
+
 .news-content {
 	word-break: break-all;
 	text-align: left;
 	padding-bottom: 5px;
 	padding-top: 5px;
 	padding-right: 25%;
-	padding-left: 20px;
+	padding-left: 20px; 
 }
 
 .news-link-to-wrapper {
 	
 }
-.page-number{
-	margin: 20px; 
-	font-size: larger; 
-	}
 
 .link-position {
 	text-align: right;
@@ -224,14 +208,14 @@ a, u {
 	padding-right: 15px;
 }
 
-.no-news {
+.no-news{
 	margin-top: 10px;
 	text-align: center;
 }
-
+ 
 /* for view news */
-.news_text_format {
-	margin: 0;
+ .news_text_format {
+ margin: 0;
 	width: 80%;
 	text-align: left;
 	word-break: break-all;
@@ -252,7 +236,7 @@ a, u {
 	padding-left: 10px;
 	padding-top: 10px;
 	padding-bottom: 10px;
-	color: Grey;
+	color: black;
 }
 
 .first-view-button {
@@ -266,14 +250,7 @@ a, u {
 	width: 50px;
 	position: relative;
 	bottom: 23px;
-	left: 26%;
-}
-
-.third-view-button {
-	width: 50px;
-	position: relative;
-	bottom: 23px;
-	left: 10%;
+	left: 35%;
 }
 
 a:visited {
@@ -281,7 +258,7 @@ a:visited {
 }
 
 /* for add news  */
-.cancel-button {
+ .cancel-button {
 	width: 40px;
 	position: relative;
 	bottom: 23px;
@@ -314,22 +291,12 @@ a:visited {
 }
 
 .all_buttons_size {
-	width: 80px;
+    width: 80px;
 }
 
 /* more than one  */
-.error-box {
+.error-box{
 	margin-top: 10px;
-	text-align: center;
+	text-align: center;	
 }
 
-.error {
-	border: solid 1px black;
-	font: normal 100% Times New Roman, Verdana, Tahoma, sans-serif;
-	height: 99%;
-	min-width: 500px;
-	min-height: 500px;
-	position: relative;
-	width: 1000px;
-	background-color: #cbc5c8;
-}
