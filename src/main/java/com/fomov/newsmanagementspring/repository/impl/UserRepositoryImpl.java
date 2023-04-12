@@ -9,6 +9,9 @@ import org.hibernate.*;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.NoResultException;
+import java.util.List;
+
 @Repository
 public class UserRepositoryImpl implements IUserRepository {
     private final SessionFactory sessionFactory;
@@ -21,9 +24,13 @@ public class UserRepositoryImpl implements IUserRepository {
 
     @Override
     public boolean authorization(User user) throws RepositoryException {
+        String password;
+
         try {
-            if(findUserByLogin(user.getLogin()) != null) {
-                if(user.getPassword() == findUserByLogin(user.getLogin()).getPassword()) {
+            if(!findUserByLogin(user.getLogin()).isEmpty()) {
+                password = findUserByLogin(user.getLogin()).get(1).getPassword();
+
+                if(user.getPassword().equals(password)) {
                     return true;
                 }
             }
@@ -38,7 +45,7 @@ public class UserRepositoryImpl implements IUserRepository {
     @Override
     public boolean registration(User user) throws RepositoryException {
         try {
-            if(findUserByLogin(user.getLogin()) != null) {
+            if(findUserByLogin(user.getLogin()).isEmpty()) {
                 Session session = sessionFactory.getCurrentSession();
 
                 Role role = session.get(Role.class, 1);
@@ -60,19 +67,17 @@ public class UserRepositoryImpl implements IUserRepository {
     }
 
     @Override
-    public User findUserByLogin(String login) throws RepositoryException {
+    public List<User> findUserByLogin(String login) throws RepositoryException {
         Session session = sessionFactory.getCurrentSession();
-        User user;
+
         try {
             Query query = session.createQuery(HQL_QUERY_FOR_AUTHORIZATION_AND_FIND_USER_BY_LOGIN);
             query.setParameter("login", login);
 
-            user = (User) query.getSingleResult();
+            return query.list();
         }
         catch (HibernateException e) {
             throw new RepositoryException(e);
         }
-
-        return user;
     }
 }

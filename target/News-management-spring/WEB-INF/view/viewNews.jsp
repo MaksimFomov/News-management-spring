@@ -1,7 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ include file="/WEB-INF/view/localization/localizationBase.jsp" %>
 <div class="body-title">
-	<a href="controller?command=go_to_news_list">${goback_news}</a> ${viewnews_goback_current}
+	<a href="/homePage">${goback_news}</a> ${viewnews_goback_current}
 </div>
 
 <div class="add-table-margin">

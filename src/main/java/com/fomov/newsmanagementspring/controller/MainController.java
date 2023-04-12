@@ -1,11 +1,13 @@
 package com.fomov.newsmanagementspring.controller;
 
 import com.fomov.newsmanagementspring.model.News;
+import com.fomov.newsmanagementspring.model.User;
 import com.fomov.newsmanagementspring.service.INewsService;
 import com.fomov.newsmanagementspring.service.ServiceException;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -19,7 +21,7 @@ public class MainController {
     }
 
     @Transactional
-    @RequestMapping("/homePage")
+    @GetMapping("/homePage")
     public String goToBasePage(Model model) {
         try {
             List<News> news = newsService.getLatestNewsList(5);
@@ -35,10 +37,17 @@ public class MainController {
         return "baseLayout";
     }
 
+    @GetMapping("/changeLanguage")
+    public String changeLanguage() {
+        return "baseLayout";
+    }
+
     @Transactional
-    @RequestMapping("/registration")
+    @GetMapping("/registration")
     public String goToRegistrationPage(Model model) {
+        model.addAttribute("user", new User());
         model.addAttribute("presentation", "registration");
         return "baseLayout";
     }
+
 }
