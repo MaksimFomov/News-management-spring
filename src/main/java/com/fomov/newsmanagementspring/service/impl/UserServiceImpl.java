@@ -17,6 +17,8 @@ public class UserServiceImpl implements IUserService {
         this.userRepository = userRepository;
     }
 
+    private static final String ROLE_GUEST = "ROLE_GUEST";
+
     @Override
     @Transactional
     public String authorization(User user) throws ServiceException {
@@ -29,7 +31,7 @@ public class UserServiceImpl implements IUserService {
             throw new ServiceException(e);
         }
 
-        return "ROLE_GUEST";
+        return ROLE_GUEST;
     }
 
     @Override

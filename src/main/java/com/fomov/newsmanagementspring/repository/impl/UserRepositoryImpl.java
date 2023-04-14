@@ -20,6 +20,8 @@ public class UserRepositoryImpl implements IUserRepository {
 
     private static final String HQL_QUERY_FIND_USER_BY_LOGIN = "FROM User WHERE login=:login";
 
+    private static final String QUERY_PARAMETER_LOGIN = "login";
+
     @Override
     public boolean authorization(User user) throws RepositoryException {
         String password;
@@ -77,7 +79,7 @@ public class UserRepositoryImpl implements IUserRepository {
 
         try {
             Query query = session.createQuery(HQL_QUERY_FIND_USER_BY_LOGIN);
-            query.setParameter("login", login);
+            query.setParameter(QUERY_PARAMETER_LOGIN, login);
 
             return query.list();
         }

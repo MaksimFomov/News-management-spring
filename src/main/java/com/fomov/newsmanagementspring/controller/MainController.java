@@ -20,19 +20,31 @@ public class MainController {
         this.newsService = newsService;
     }
 
+    private static final String NEWS_PARAM = "news";
+    private static final String USER_PARAM = "user";
+
+    private static final String PRESENTATION_PARAM = "presentation";
+    private static final String PRESENTATION_LOCAL_KEY_FOR_REGISTRATION = "registration";
+    private static final String PRESENTATION_LOCAL_KEY_FOR_NEWS_LIST = "newsList";
+
+    private static final String ERROR_MESSAGE_PARAM = "error_msg";
+    private static final String ERROR_MESSAGE_LOCAL_KEY_FOR_HOME_PAGE = "cannot get the latest list of news";
+    private static final String ERROR_MESSAGE_LOCAL_KEY_FOR_ERROR_PAGE = "no such command error";
+    private static final String ERROR_MESSAGE_LOCAL_KEY_FOR_NEWS_LIST = "cannot get the list of news";
+
     @Transactional
     @GetMapping("/homePage")
     public String goToHomePage(HttpServletRequest request, Model model) {
         try {
             List<News> latestNews = newsService.getLatestNewsList(5);
 
-            model.addAttribute("news", latestNews);
-            model.addAttribute("user", new User());
+            model.addAttribute(NEWS_PARAM, latestNews);
+            model.addAttribute(USER_PARAM, new User());
 
             return "baseLayout";
         }
         catch (ServiceException e) {
-            request.getSession().setAttribute("error_msg", "cannot get the latest list of news");
+            request.getSession().setAttribute(ERROR_MESSAGE_PARAM, ERROR_MESSAGE_LOCAL_KEY_FOR_HOME_PAGE);
 
             return "redirect:/errorPage";
         }
@@ -41,10 +53,10 @@ public class MainController {
     @Transactional
     @GetMapping("/errorPage")
     public String goToErrorPage(HttpServletRequest request) {
-        String errorMessage = (String) request.getSession().getAttribute("error_msg");
+        String errorMessage = (String) request.getSession().getAttribute(ERROR_MESSAGE_PARAM);
 
         if (errorMessage == null) {
-            request.getSession().setAttribute("error_msg", "no such command error");
+            request.getSession().setAttribute(ERROR_MESSAGE_PARAM, ERROR_MESSAGE_LOCAL_KEY_FOR_ERROR_PAGE);
         }
 
         return "baseLayout";
@@ -58,9 +70,9 @@ public class MainController {
 
     @Transactional
     @GetMapping("/registration")
-    public String goToRegistrationPage(HttpServletRequest request, Model model) {
-        model.addAttribute("user", new User());
-        model.addAttribute("presentation", "registration");
+    public String goToRegistrationPage(Model model) {
+        model.addAttribute(USER_PARAM, new User());
+        model.addAttribute(PRESENTATION_PARAM, PRESENTATION_LOCAL_KEY_FOR_REGISTRATION);
 
         return "baseLayout";
     }
@@ -71,14 +83,14 @@ public class MainController {
         try {
             List<News> newsList = newsService.getNewsList();
             if (newsList.size() > 0) {
-                model.addAttribute("news", newsList);
+                model.addAttribute(NEWS_PARAM, newsList);
             }
 
-            model.addAttribute("presentation", "newsList");
+            model.addAttribute(PRESENTATION_PARAM, PRESENTATION_LOCAL_KEY_FOR_NEWS_LIST);
 
             return "baseLayout";
         } catch (ServiceException e) {
-            request.getSession().setAttribute("error_msg", "cannot get the list of news");
+            request.getSession().setAttribute(ERROR_MESSAGE_PARAM, ERROR_MESSAGE_LOCAL_KEY_FOR_NEWS_LIST);
 
             return "redirect:/errorPage";
         }
