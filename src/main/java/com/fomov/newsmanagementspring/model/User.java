@@ -30,11 +30,6 @@ public class User {
     @JoinColumn(name = "user_detail_id")
     private UserDetail userDetail;
 
-    @OneToOne(fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_status_id", nullable = false)
-    private UserStatus userStatus;
-
     @OneToMany(mappedBy = "user",
             fetch = FetchType.LAZY,
             cascade = {CascadeType.PERSIST, CascadeType.MERGE,
@@ -44,13 +39,12 @@ public class User {
 
     public User() {}
 
-    public User(int id, String login, String password, Role role, UserDetail userDetail, UserStatus userStatus, List<News> news) {
+    public User(int id, String login, String password, Role role, UserDetail userDetail, List<News> news) {
         this.id = id;
         this.login = login;
         this.password = password;
         this.role = role;
         this.userDetail = userDetail;
-        this.userStatus = userStatus;
         this.news = news;
     }
 
@@ -94,14 +88,6 @@ public class User {
         this.userDetail = userDetail;
     }
 
-    public UserStatus getUserStatus() {
-        return userStatus;
-    }
-
-    public void setUserStatus(UserStatus userStatus) {
-        this.userStatus = userStatus;
-    }
-
     public List<News> getNews() {
         return news;
     }
@@ -115,11 +101,11 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id == user.id && Objects.equals(login, user.login) && Objects.equals(password, user.password) && Objects.equals(role, user.role) && Objects.equals(userDetail, user.userDetail) && Objects.equals(userStatus, user.userStatus) && Objects.equals(news, user.news);
+        return id == user.id && Objects.equals(login, user.login) && Objects.equals(password, user.password) && Objects.equals(role, user.role) && Objects.equals(userDetail, user.userDetail) && Objects.equals(news, user.news);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, login, password, role, userDetail, userStatus, news);
+        return Objects.hash(id, login, password, role, userDetail, news);
     }
 }

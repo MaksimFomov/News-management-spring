@@ -23,14 +23,14 @@
 				
 				<div class="news-link-to-wrapper">
 					<div class="link-position">
-						<c:if test="${sessionScope.role eq 'admin'}">
+						<c:if test="${sessionScope.role eq 'ROLE_ADMIN'}">
 						      <a href="controller?command=go_to_edit_news&id=${news.id}">${edit} </a>
 						</c:if>
 						
 						<span>&nbsp&nbsp</span>
 						
 						<a href="controller?command=go_to_view_news&id=${news.id}">${newslist_view} </a>
-   					    <c:if test="${sessionScope.role eq 'admin'}">
+   					    <c:if test="${sessionScope.role eq 'ROLE_ADMIN'}">
    					         <input type="checkbox" name="id" value="${news.id}" />
    					    </c:if>
 					</div>
@@ -39,7 +39,7 @@
 		</div>
 	</c:forEach>
 
-    <c:if test="${(sessionScope.role eq 'admin') and (not (requestScope.news eq null))}">
+    <c:if test="${(sessionScope.role eq 'ROLE_ADMIN') and (not (requestScope.news eq null))}">
         <div class="delete-button-position">
             <input type="hidden" name="command" value="do_delete_news" />
             <input type="submit" value="${delete}" />

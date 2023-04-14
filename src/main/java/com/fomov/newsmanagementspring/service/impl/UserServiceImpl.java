@@ -19,13 +19,17 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     @Transactional
-    public boolean authorization(User user) throws ServiceException {
+    public String authorization(User user) throws ServiceException {
         try {
-            return userRepository.authorization(user);
+            if(userRepository.authorization(user)) {
+                return userRepository.getRole(user.getLogin());
+            }
         }
         catch (RepositoryException e) {
             throw new ServiceException(e);
         }
+
+        return "ROLE_GUEST";
     }
 
     @Override

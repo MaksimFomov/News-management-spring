@@ -16,7 +16,7 @@
 				<a href="controller?command=go_to_news_list">${list_news}</a><br />
 				</li>
 
-				<c:if test="${sessionScope.role eq 'admin'}">
+				<c:if test="${sessionScope.role eq 'ROLE_ADMIN'}">
 					<li style="padding-left: 15px;">
 					    <a href="controller?command=go_to_add_news">${list_add}</a>
 	                    <br />

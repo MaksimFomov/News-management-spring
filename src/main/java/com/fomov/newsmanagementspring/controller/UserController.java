@@ -3,10 +3,9 @@ package com.fomov.newsmanagementspring.controller;
 import com.fomov.newsmanagementspring.model.User;
 import com.fomov.newsmanagementspring.service.IUserService;
 import com.fomov.newsmanagementspring.service.ServiceException;
-import jakarta.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
@@ -21,38 +20,42 @@ public class UserController {
 
     @Transactional
     @PostMapping("/registration")
-    public String registration(@ModelAttribute("user") User user, Model model) {
+    public String registration(@ModelAttribute("user") User user, HttpServletRequest request) {
         try {
             if (!userService.registration(user)) {
-                model.addAttribute("register_error", "err");
+                request.getSession().setAttribute("register_error", "err");
                 return "redirect:/registration";
             }
             else {
-                model.addAttribute("register_success", "suc");
-                return "baseLayout";
+                request.getSession().setAttribute("register_success", "suc");
+                return "redirect:/newsList";
             }
         }
         catch (ServiceException e) {
-            model.addAttribute("invalid_values_for_register", "err");
+            request.getSession().setAttribute("invalid_values_for_register", "err");
             return "redirect:/registration";
         }
     }
 
-    @PostMapping("/homePage")
-    public String authorization(@ModelAttribute("user") User user, Model model) {
+    @PostMapping("/authorization")
+    public String authorization(@ModelAttribute("user") User user, HttpServletRequest request) {
         try {
-            if (!userService.authorization(user)) {
-                model.addAttribute("login_error", "err");
-                return "redirect:/baseLayout";
+            String role = userService.authorization(user);
+
+            if (!role.equals("ROLE_GUEST")) {
+                request.getSession().setAttribute("userActivity", "active");
+                request.getSession().setAttribute("role", role);
+                return "redirect:/newsList";
             }
             else {
-                model.addAttribute("login_success", "suc");
-                return "error";
+                request.getSession().setAttribute("userActivity", "not active");
+                request.getSession().setAttribute("auth_error", "wrong login or password");
+                return "redirect:/homePage";
             }
         }
         catch (ServiceException e) {
-            model.addAttribute("invalid_values_for_register", "err");
-            return "redirect:/baseLayout";
+            request.getSession().setAttribute("error_msg", e.getMessage());
+            return "redirect:/errorPage";
         }
     }
 }

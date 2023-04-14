@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <%@ include file="/WEB-INF/view/localization/localizationBase.jsp" %>
 
@@ -14,16 +15,20 @@
 
 		<c:if test="${not (sessionScope.userActivity eq 'active')}">
 			<div align="right">
-				<form action="controller" method="post">
-					<input type="hidden" name="command" value="do_sign_in"/>
-					${header_logination_login} <input type="text" name="login" value="" /><br />
-					${header_logination_password} <input type="password" name="password" value="" /><br />
+				<form:form method="POST" action="/authorization"
+						   modelAttribute="user">
+					<form:label path="login">${header_logination_login}</form:label>
+					<form:input path="login" />
+					<br/>
+					<form:label path="password">${header_logination_password}</form:label>
+					<form:input path="password" />
+					<br/>
 
 					<c:if test="${not (sessionScope.auth_error eq null)}">
-						<font color="red"> 
+						<font color="red">
 							<c:out value="${auth_error_message}" />
 							<c:remove var="auth_error"/>
-						</font> 
+						</font>
 					</c:if>
 
 					<c:if test="${not (sessionScope.register_success eq null)}">
@@ -39,17 +44,17 @@
 							<c:remove var="register_error"/>
 						</font>
 					</c:if>
-					
+
 					<c:if test="${not (sessionScope.invalid_values_for_register eq null)}">
 						<font color="red">
 							<c:out value="${register_invalid_values_message}" />
 							<c:remove var="invalid_values_for_register"/>
 						</font>
 					</c:if>
-					
+
 					<a href="/registration">${header_registration_link}</a>
 					<input type="submit" value="${header_signin}" /><br />
-				</form>
+				</form:form>
 			</div>
 		</c:if>
 		
