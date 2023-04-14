@@ -28,11 +28,13 @@ public class MainController {
 
             model.addAttribute("news", latestNews);
             model.addAttribute("user", new User());
+
             return "baseLayout";
         }
         catch (ServiceException e) {
             request.getSession().setAttribute("error_msg", "cannot get the latest list of news");
-            return "error";
+
+            return "redirect:/errorPage";
         }
     }
 
@@ -59,24 +61,25 @@ public class MainController {
     public String goToRegistrationPage(HttpServletRequest request, Model model) {
         model.addAttribute("user", new User());
         model.addAttribute("presentation", "registration");
+
         return "baseLayout";
     }
 
     @Transactional
     @GetMapping("/newsList")
     public String goToNewsList(HttpServletRequest request, Model model) {
-        List<News> newsList;
-
         try {
-            newsList = newsService.getNewsList();
+            List<News> newsList = newsService.getNewsList();
             if (newsList.size() > 0) {
                 model.addAttribute("news", newsList);
             }
 
             model.addAttribute("presentation", "newsList");
+
             return "baseLayout";
         } catch (ServiceException e) {
             request.getSession().setAttribute("error_msg", "cannot get the list of news");
+
             return "redirect:/errorPage";
         }
     }

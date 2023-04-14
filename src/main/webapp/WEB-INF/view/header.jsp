@@ -60,7 +60,7 @@
 		
 		<c:if test="${sessionScope.userActivity eq 'active'}">
 			<div align="right">
-				<form action="controller" method="post">
+				<form action="/signOut" method="post">
 					<input type="hidden" name="command" value="do_sign_out" /> 
 					<input type="submit" value="${header_signout}" /><br />
 				</form>

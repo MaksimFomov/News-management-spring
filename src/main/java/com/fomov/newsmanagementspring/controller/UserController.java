@@ -37,6 +37,7 @@ public class UserController {
         }
     }
 
+    @Transactional
     @PostMapping("/authorization")
     public String authorization(@ModelAttribute("user") User user, HttpServletRequest request) {
         try {
@@ -45,17 +46,29 @@ public class UserController {
             if (!role.equals("ROLE_GUEST")) {
                 request.getSession().setAttribute("userActivity", "active");
                 request.getSession().setAttribute("role", role);
+
                 return "redirect:/newsList";
             }
             else {
                 request.getSession().setAttribute("userActivity", "not active");
                 request.getSession().setAttribute("auth_error", "wrong login or password");
+
                 return "redirect:/homePage";
             }
         }
         catch (ServiceException e) {
             request.getSession().setAttribute("error_msg", e.getMessage());
+
             return "redirect:/errorPage";
         }
+    }
+
+    @Transactional
+    @PostMapping("/signOut")
+    public String signOut(HttpServletRequest request) {
+        request.getSession().setAttribute("userActivity", "not active");
+        request.getSession().setAttribute("role", "guest");
+
+        return "redirect:/homePage";
     }
 }
