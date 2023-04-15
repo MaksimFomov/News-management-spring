@@ -18,6 +18,7 @@ public class UserController {
     }
 
     private static final String ROLE_GUEST = "ROLE_GUEST";
+    private static final String USER_ID = "userId";
 
     private static final String ROLE_PARAM = "role";
     private static final String USER_ACTIVITY_PARAM = "userActivity";
@@ -61,6 +62,7 @@ public class UserController {
             if (!role.equals(ROLE_GUEST)) {
                 request.getSession().setAttribute(USER_ACTIVITY_PARAM, USER_ACTIVITY_ACTIVE_LOCAL_KEY);
                 request.getSession().setAttribute(ROLE_PARAM, role);
+                request.getSession().setAttribute(USER_ID, userService.findUserByLogin(user.getLogin()).get(0).getId());
 
                 return "redirect:/newsList";
             }

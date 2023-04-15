@@ -10,4 +10,5 @@ public interface INewsRepository {
     void addNews(News news) throws RepositoryException;
     void updateNews(News news) throws RepositoryException;
     void deleteNews(String[] idNews) throws RepositoryException;
+    News findById(int id) throws RepositoryException;
 }

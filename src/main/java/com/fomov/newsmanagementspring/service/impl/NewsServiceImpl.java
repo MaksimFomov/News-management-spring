@@ -67,4 +67,13 @@ public class NewsServiceImpl implements INewsService {
             throw new ServiceException(e);
         }
     }
+
+    @Override
+    public News findById(int id) throws ServiceException {
+        try {
+            return newsRepository.findById(id);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
+    }
 }

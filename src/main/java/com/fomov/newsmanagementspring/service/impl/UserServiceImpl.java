@@ -8,6 +8,7 @@ import com.fomov.newsmanagementspring.service.ServiceException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements IUserService {
@@ -39,6 +40,17 @@ public class UserServiceImpl implements IUserService {
     public boolean registration(User user) throws ServiceException {
         try {
             return userRepository.registration(user);
+        }
+        catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    @Transactional
+    public List<User> findUserByLogin(String login) throws ServiceException {
+        try {
+            return userRepository.findUserByLogin(login);
         }
         catch (RepositoryException e) {
             throw new ServiceException(e);

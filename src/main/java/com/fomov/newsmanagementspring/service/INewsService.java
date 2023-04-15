@@ -10,4 +10,6 @@ public interface INewsService {
     void addNews(News news) throws ServiceException;
     void updateNews(News news) throws ServiceException;
     void deleteNews(String[] idNews) throws ServiceException;
+
+    News findById(int id) throws ServiceException;
 }

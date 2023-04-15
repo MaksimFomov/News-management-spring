@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class NewsRepositoryImpl implements INewsRepository {
@@ -23,22 +24,24 @@ public class NewsRepositoryImpl implements INewsRepository {
     private static final String HQL_QUERY_FOR_GET_NEWS_LIST = "FROM News";
     private static final String HQL_QUERY_FOR_DELETE_NEWS = "DELETE FROM News WHERE id=:id";
 
+    private static final String QUERY_PARAMETER_ID = "id";
+
     @Override
     public List<News> getNewsList() throws RepositoryException {
         Session session = sessionFactory.getCurrentSession();
-        List<News> news;
+        List<News> newsList;
 
         try {
             Query query = session.createQuery(HQL_QUERY_FOR_GET_NEWS_LIST);
-            news = query.getResultList();
+            newsList = query.list();
 
-            Collections.sort(news, (news1, news2) -> news2.getDate().compareTo(news1.getDate()));
+            Collections.sort(newsList, (news1, news2) -> news2.getDate().compareTo(news1.getDate()));
+
+            return newsList;
         }
         catch (HibernateException e) {
             throw new RepositoryException(e);
         }
-
-        return news;
     }
 
     @Override
@@ -81,13 +84,18 @@ public class NewsRepositoryImpl implements INewsRepository {
         try {
             Query query = session.createQuery(HQL_QUERY_FOR_DELETE_NEWS);
 
-            for(var id: idNews) {
-                query.setParameter("id", id);
+            for(String id: idNews) {
+                query.setParameter(QUERY_PARAMETER_ID, Integer.parseInt(id));
                 query.executeUpdate();
             }
         }
         catch (HibernateException e) {
             throw new RepositoryException(e);
         }
+    }
+
+    @Override
+    public News findById(int id) throws RepositoryException {
+        return getNewsList().stream().filter(o -> Objects.equals(o.getId(), id)).findAny().orElse(null);
     }
 }

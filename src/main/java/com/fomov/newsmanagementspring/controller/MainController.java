@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -26,11 +28,15 @@ public class MainController {
     private static final String PRESENTATION_PARAM = "presentation";
     private static final String PRESENTATION_LOCAL_KEY_FOR_REGISTRATION = "registration";
     private static final String PRESENTATION_LOCAL_KEY_FOR_NEWS_LIST = "newsList";
+    private static final String PRESENTATION_LOCAL_KEY_FOR_ADD_NEWS = "addNews";
+    private static final String PRESENTATION_LOCAL_KEY_FOR_EDIT_NEWS = "editNews";
+    private static final String PRESENTATION_LOCAL_KEY_FOR_VIEW_NEWS = "viewNews";
 
     private static final String ERROR_MESSAGE_PARAM = "error_msg";
     private static final String ERROR_MESSAGE_LOCAL_KEY_FOR_HOME_PAGE = "cannot get the latest list of news";
     private static final String ERROR_MESSAGE_LOCAL_KEY_FOR_ERROR_PAGE = "no such command error";
     private static final String ERROR_MESSAGE_LOCAL_KEY_FOR_NEWS_LIST = "cannot get the list of news";
+    private static final String ERROR_MESSAGE_LOCAL_KEY_FOR_EDIT_AND_VIEW_NEWS = "cannot find the news by id";
 
     @Transactional
     @GetMapping("/homePage")
@@ -79,7 +85,7 @@ public class MainController {
 
     @Transactional
     @GetMapping("/newsList")
-    public String goToNewsList(HttpServletRequest request, Model model) {
+    public String goToNewsListPage(HttpServletRequest request, Model model) {
         try {
             List<News> newsList = newsService.getNewsList();
             if (newsList.size() > 0) {
@@ -91,6 +97,48 @@ public class MainController {
             return "baseLayout";
         } catch (ServiceException e) {
             request.getSession().setAttribute(ERROR_MESSAGE_PARAM, ERROR_MESSAGE_LOCAL_KEY_FOR_NEWS_LIST);
+
+            return "redirect:/errorPage";
+        }
+    }
+
+    @Transactional
+    @GetMapping("/addNews")
+    public String goToAddNewsPage(Model model) {
+        model.addAttribute(NEWS_PARAM, new News());
+        model.addAttribute(PRESENTATION_PARAM, PRESENTATION_LOCAL_KEY_FOR_ADD_NEWS);
+
+        return "baseLayout";
+    }
+
+    @Transactional
+    @GetMapping("/editNews")
+    public String goToEditNewsPage(@RequestParam("id") int id, HttpServletRequest request, Model model) {
+        try {
+            News news = newsService.findById(id);
+            model.addAttribute(NEWS_PARAM, news);
+            model.addAttribute(PRESENTATION_PARAM, PRESENTATION_LOCAL_KEY_FOR_EDIT_NEWS);
+
+            return "baseLayout";
+        }
+        catch (ServiceException e) {
+            request.getSession().setAttribute(ERROR_MESSAGE_PARAM, ERROR_MESSAGE_LOCAL_KEY_FOR_EDIT_AND_VIEW_NEWS);
+
+            return "redirect:/errorPage";
+        }
+    }
+
+    @Transactional
+    @GetMapping("/viewNews")
+    public String goToViewNewsPage(@RequestParam("id") int id, HttpServletRequest request, Model model) {
+        try {
+            News news  = newsService.findById(id);
+            model.addAttribute(NEWS_PARAM, news);
+            model.addAttribute(PRESENTATION_PARAM, PRESENTATION_LOCAL_KEY_FOR_VIEW_NEWS);
+
+            return "baseLayout";
+        } catch (ServiceException e) {
+            request.getSession().setAttribute(ERROR_MESSAGE_PARAM, ERROR_MESSAGE_LOCAL_KEY_FOR_EDIT_AND_VIEW_NEWS);
 
             return "redirect:/errorPage";
         }

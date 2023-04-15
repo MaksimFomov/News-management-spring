@@ -13,12 +13,12 @@
 			<ul style="list-style-image: url(images/img.jpg); text-align: left;">
 				<li style="padding-left: 15px;">
 				
-				<a href="controller?command=go_to_news_list">${list_news}</a><br />
+				<a href="/newsList">${list_news}</a><br />
 				</li>
 
 				<c:if test="${sessionScope.role eq 'ROLE_ADMIN'}">
 					<li style="padding-left: 15px;">
-					    <a href="controller?command=go_to_add_news">${list_add}</a>
+					    <a href="/addNews">${list_add}</a>
 	                    <br />
 					</li>
 				</c:if>
