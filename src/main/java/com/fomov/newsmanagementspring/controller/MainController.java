@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -26,6 +27,7 @@ public class MainController {
     private static final String LOCAL_PARAM = "local";
     private static final String USER_ACTIVITY_ACTIVE = "active";
     private static final String USER_ACTIVITY = "userActivity";
+    private static final String DATE_NOW = "dateNow";
 
     private static final String PRESENTATION_PARAM = "presentation";
     private static final String PRESENTATION_LOCAL_KEY_FOR_REGISTRATION = "registration";
@@ -110,9 +112,10 @@ public class MainController {
 
     @Transactional
     @GetMapping("/addNews")
-    public String goToAddNewsPage(Model model) {
+    public String goToAddNewsPage(Model model, HttpServletRequest request) {
         model.addAttribute(NEWS_PARAM, new News());
         model.addAttribute(PRESENTATION_PARAM, PRESENTATION_LOCAL_KEY_FOR_ADD_NEWS);
+        request.getSession().setAttribute(DATE_NOW, LocalDate.now());
 
         return "baseLayout";
     }

@@ -29,7 +29,7 @@
 
                 <td class="space_around_view_text">
                 	<div class="word-breaker">
-                        <form:input type="date" path="date" />
+                        <form:input type="date" value="${dateNow}" path="date" />
 					</div>
 				</td>
             </tr>

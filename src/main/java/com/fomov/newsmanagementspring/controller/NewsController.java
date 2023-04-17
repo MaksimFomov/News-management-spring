@@ -95,7 +95,7 @@ public class NewsController {
         } catch (ServiceException e) {
             request.getSession().setAttribute(ERROR_MESSAGE_PARAM_FROM_ADD_AND_EDIT_NEWS, ERROR_MESSAGE_LOCAL_KEY);
 
-            return "redirect:/errorPage";
+            return "redirect:/editNews?id=" + news.getId();
         }
     }
 }
