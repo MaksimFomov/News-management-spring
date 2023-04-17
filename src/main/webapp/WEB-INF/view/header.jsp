@@ -6,11 +6,11 @@
 
 <div class="wrapper">
 	<div class="newstitle"> ${header_name} </div> 
-	
+
 	<div class="local-link">
 		<div align="right">
-			<a href="controller?command=do_change_language&local=en"> ${header_en} </a> &nbsp;&nbsp;
-			<a href="controller?command=do_change_language&local=ru"> ${header_ru} </a> <br /> <br />
+			<a href="/changeLanguage?local=en"> ${header_en} </a> &nbsp;&nbsp;
+			<a href="/changeLanguage?local=ru"> ${header_ru} </a> <br /> <br />
 		</div>
 
 		<c:if test="${not (sessionScope.userActivity eq 'active')}">
@@ -21,7 +21,7 @@
 					<form:input path="login" />
 					<br/>
 					<form:label path="password">${header_logination_password}</form:label>
-					<form:input path="password" />
+					<form:input type="password" path="password" />
 					<br/>
 
 					<c:if test="${not (sessionScope.auth_error eq null)}">
@@ -61,7 +61,6 @@
 		<c:if test="${sessionScope.userActivity eq 'active'}">
 			<div align="right">
 				<form action="/signOut" method="post">
-					<input type="hidden" name="command" value="do_sign_out" /> 
 					<input type="submit" value="${header_signout}" /><br />
 				</form>
 

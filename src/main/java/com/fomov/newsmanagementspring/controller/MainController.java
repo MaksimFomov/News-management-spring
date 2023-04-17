@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.transaction.Transactional;
@@ -24,6 +23,9 @@ public class MainController {
 
     private static final String NEWS_PARAM = "news";
     private static final String USER_PARAM = "user";
+    private static final String LOCAL_PARAM = "local";
+    private static final String USER_ACTIVITY_ACTIVE = "active";
+    private static final String USER_ACTIVITY = "userActivity";
 
     private static final String PRESENTATION_PARAM = "presentation";
     private static final String PRESENTATION_LOCAL_KEY_FOR_REGISTRATION = "registration";
@@ -70,8 +72,12 @@ public class MainController {
 
     @Transactional
     @GetMapping("/changeLanguage")
-    public String changeLanguage() {
-        return "baseLayout";
+    public String changeLanguage(@RequestParam("local") String local, HttpServletRequest request) {
+        request.getSession().setAttribute(LOCAL_PARAM, local);
+
+        return USER_ACTIVITY_ACTIVE.equals(request.getSession().getAttribute(USER_ACTIVITY))
+                ? "redirect:/newsList"
+                : "redirect:/homePage";
     }
 
     @Transactional

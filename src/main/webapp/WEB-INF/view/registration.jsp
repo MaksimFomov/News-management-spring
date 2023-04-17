@@ -17,7 +17,7 @@
 				<form:input path="login" />
 				<br/>
 				<form:label path="password">${header_logination_password}</form:label>
-				<form:input path="password" />
+				<form:input type="password" path="password" />
 				<br/>
 				<input type="submit" value="${save}" />
 			</form:form>
