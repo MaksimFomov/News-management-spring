@@ -44,7 +44,7 @@ public class UserController {
             }
             else {
                 request.getSession().setAttribute(SUCCESS_MESSAGE_PARAM_FOR_REGISTRATION, SUCCESS_MESSAGE_LOCAL_KEY_FOR_REGISTRATION);
-                return "redirect:/newsList";
+                return "redirect:/homePage";
             }
         }
         catch (ServiceException e) {

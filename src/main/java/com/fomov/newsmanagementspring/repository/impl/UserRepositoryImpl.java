@@ -7,6 +7,7 @@ import com.fomov.newsmanagementspring.repository.RepositoryException;
 import org.hibernate.*;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.List;
 
@@ -24,15 +25,11 @@ public class UserRepositoryImpl implements IUserRepository {
 
     @Override
     public boolean authorization(User user) throws RepositoryException {
-        String password;
-
         try {
             if(!findUserByLogin(user.getLogin()).isEmpty()) {
-                password = findUserByLogin(user.getLogin()).get(0).getPassword();
+                String password = findUserByLogin(user.getLogin()).get(0).getPassword();
 
-                if(user.getPassword().equals(password)) {
-                    return true;
-                }
+                return BCrypt.checkpw(user.getPassword(), password);
             }
         }
         catch (HibernateException e) {
@@ -50,6 +47,8 @@ public class UserRepositoryImpl implements IUserRepository {
 
                 Role role = session.get(Role.class, 1);
                 user.setRole(role);
+
+                user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
 
                 session.saveOrUpdate(user);
 
