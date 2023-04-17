@@ -14,11 +14,9 @@ import java.util.List;
 @Repository
 public class UserRepositoryImpl implements IUserRepository {
     private final SessionFactory sessionFactory;
-
     public UserRepositoryImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
-
     private static final String HQL_QUERY_FIND_USER_BY_LOGIN = "FROM User WHERE login=:login";
 
     private static final String QUERY_PARAMETER_LOGIN = "login";

@@ -9,7 +9,6 @@ import com.fomov.newsmanagementspring.validation.IUserValidation;
 import com.fomov.newsmanagementspring.validation.impl.UserValidationImpl;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -26,7 +25,6 @@ public class UserServiceImpl implements IUserService {
     private static final String ROLE_GUEST = "ROLE_GUEST";
 
     @Override
-    @Transactional
     public String authorization(User user) throws ServiceException {
         try {
             if(userRepository.authorization(user)) {
@@ -41,7 +39,6 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    @Transactional
     public boolean registration(User user) throws ServiceException {
         if(!userValidation.checkAuthData(user.getLogin(), user.getPassword())) {
             throw new ServiceException(ERROR_MESSAGE_FOR_INVALID_LOGIN_OR_PASSWORD);
@@ -56,7 +53,6 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    @Transactional
     public List<User> findUserByLogin(String login) throws ServiceException {
         try {
             return userRepository.findUserByLogin(login);

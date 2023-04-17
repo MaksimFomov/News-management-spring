@@ -9,7 +9,6 @@ import com.fomov.newsmanagementspring.validation.INewsValidation;
 import com.fomov.newsmanagementspring.validation.impl.NewsValidationImpl;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -24,7 +23,6 @@ public class NewsServiceImpl implements INewsService {
     private static final String ERROR_MESSAGE_FOR_INVALID_NEWS_DATA = "fill in all the fields";
 
     @Override
-    @Transactional
     public List<News> getNewsList() throws ServiceException {
         try {
             return newsRepository.getNewsList();
@@ -34,7 +32,6 @@ public class NewsServiceImpl implements INewsService {
     }
 
     @Override
-    @Transactional
     public List<News> getLatestNewsList(int count) throws ServiceException {
         try {
             return newsRepository.getLatestNewsList(count);
@@ -44,7 +41,6 @@ public class NewsServiceImpl implements INewsService {
     }
 
     @Override
-    @Transactional
     public void addNews(News news) throws ServiceException {
         if(!newsValidation.checkNewsData(news.getTitle(), news.getBrief(), news.getContent())) {
             throw new ServiceException(ERROR_MESSAGE_FOR_INVALID_NEWS_DATA);
@@ -58,7 +54,6 @@ public class NewsServiceImpl implements INewsService {
     }
 
     @Override
-    @Transactional
     public void updateNews(News news) throws ServiceException {
         if(!newsValidation.checkNewsData(news.getTitle(), news.getBrief(), news.getContent())) {
             throw new ServiceException(ERROR_MESSAGE_FOR_INVALID_NEWS_DATA);
@@ -72,7 +67,6 @@ public class NewsServiceImpl implements INewsService {
     }
 
     @Override
-    @Transactional
     public void deleteNews(String[] idNews) throws ServiceException {
         try {
             newsRepository.deleteNews(idNews);
